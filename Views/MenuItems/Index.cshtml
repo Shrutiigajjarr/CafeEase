@@ -1,0 +1,18 @@
+@model IEnumerable<MenuItem>
+@{ ViewData["Title"] = "Menu items"; var categories = ViewBag.Categories as List<string> ?? new List<string>(); }
+<div class="page-heading d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3"><div><p class="eyebrow">YOUR CATALOGUE</p><h1>Menu items</h1><p>Keep prices and available quantities up to date.</p></div><a class="btn btn-cafe" asp-action="Create">＋ Add menu item</a></div>
+<form method="get" class="filter-bar mb-3">
+  <div class="search-wrap"><span>⌕</span><input name="search" value="@ViewBag.Search" class="form-control" placeholder="Search name or category..." aria-label="Search menu items" /></div>
+  <select name="category" class="form-select category-select" aria-label="Filter by category"><option value="">All categories</option>@foreach (var cat in categories) { <option value="@cat" selected="@(ViewBag.Category as string == cat)">@cat</option> }</select>
+  <button class="btn btn-outline-cafe" type="submit">Filter</button><a class="btn btn-light" asp-action="Index">Clear</a>
+</form>
+<div class="table-card">
+@if (!Model.Any()) {
+<div class="empty-state"><div class="empty-icon">☕</div><h3>No menu items yet</h3><p>Add your first item to start managing the cafe menu.</p><a class="btn btn-cafe" asp-action="Create">Add menu item</a></div>
+} else {
+<div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th>Item</th><th>Category</th><th>Price</th><th>Available quantity</th><th>Status</th><th class="text-end">Actions</th></tr></thead><tbody>
+@foreach (var item in Model) { <tr><td><div class="item-cell"><span class="item-avatar">@item.Name.Substring(0,1).ToUpperInvariant()</span><span class="fw-semibold">@item.Name</span></div></td><td><span class="category-pill">@item.Category</span></td><td class="fw-semibold">₹@item.Price.ToString("N2")</td><td>@item.AvailableQuantity</td><td>@if (item.AvailableQuantity == 0) { <span class="status status-out">Out of stock</span> } else if (item.AvailableQuantity <= 5) { <span class="status status-low">Low stock</span> } else { <span class="status status-in">Available</span> }</td><td class="text-end text-nowrap"><a class="table-action" asp-action="Edit" asp-route-id="@item.Id">Edit</a><a class="table-action danger-link ms-3" asp-action="Delete" asp-route-id="@item.Id">Delete</a></td></tr> }
+</tbody></table></div>
+}
+</div>
+<div class="small text-muted mt-3">@Model.Count() item(s) shown</div>

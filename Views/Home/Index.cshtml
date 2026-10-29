@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    var recentBills = ViewBag.RecentBills as List<Bill> ?? new List<Bill>();
+}
+<section class="hero-panel mb-4 mb-lg-5">
+  <div>
+    <p class="eyebrow">YOUR CAFE, IN CONTROL</p>
+    <h1>Good service starts<br class="d-none d-md-block" /> with a clear view.</h1>
+    <p class="hero-copy">Manage your menu, keep stock up to date, and create bills in one simple workspace.</p>
+    <div class="d-flex flex-wrap gap-2 mt-4">
+      <a class="btn btn-cafe" asp-controller="Bills" asp-action="Create">Create a bill <span aria-hidden="true">→</span></a>
+      <a class="btn btn-outline-cafe" asp-controller="MenuItems" asp-action="Create">Add menu item</a>
+    </div>
+  </div>
+  <div class="hero-illustration" aria-hidden="true"><div class="cup">☕</div><div class="hero-note">Freshly<br />organized.</div></div>
+</section>
+<div class="section-heading"><div><p class="eyebrow">AT A GLANCE</p><h2>Today's overview</h2></div></div>
+<div class="row g-3 mb-5">
+  <div class="col-12 col-sm-6 col-xl-4"><div class="stat-card"><div class="stat-icon">☷</div><p>Menu items</p><strong>@ViewBag.MenuCount</strong><a asp-controller="MenuItems" asp-action="Index">View menu <span>↗</span></a></div></div>
+  <div class="col-12 col-sm-6 col-xl-4"><div class="stat-card"><div class="stat-icon">₹</div><p>Sales today</p><strong>₹@(((decimal)ViewBag.TodaySales).ToString("N2"))</strong><span class="stat-foot">Based on bills recorded today (UTC)</span></div></div>
+  <div class="col-12 col-sm-6 col-xl-4"><div class="stat-card"><div class="stat-icon">▤</div><p>Total bills</p><strong>@ViewBag.BillCount</strong><a asp-controller="Bills" asp-action="Index">View billing history <span>↗</span></a></div></div>
+</div>
+<div class="section-heading"><div><p class="eyebrow">RECENT ACTIVITY</p><h2>Latest bills</h2></div><a class="text-link" asp-controller="Bills" asp-action="Index">All bills →</a></div>
+<div class="table-card">
+@if (recentBills.Count == 0) {
+  <div class="empty-state"><div class="empty-icon">▤</div><h3>No bills yet</h3><p>Your recent bills will appear here after the first checkout.</p><a class="btn btn-cafe" asp-controller="Bills" asp-action="Create">Create your first bill</a></div>
+} else {
+<table class="table align-middle mb-0"><thead><tr><th>Bill</th><th>Customer</th><th>Date</th><th class="text-end">Total</th><th></th></tr></thead><tbody>
+@foreach (var bill in recentBills) { <tr><td class="fw-semibold">#@bill.Id.ToString("D4")</td><td>@bill.CustomerName</td><td>@bill.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, hh:mm tt")</td><td class="text-end fw-semibold">₹@bill.TotalAmount.ToString("N2")</td><td class="text-end"><a class="table-action" asp-controller="Bills" asp-action="Details" asp-route-id="@bill.Id">View</a></td></tr> }
+</tbody></table>
+}
+</div>

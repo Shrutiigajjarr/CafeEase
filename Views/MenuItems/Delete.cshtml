@@ -1,0 +1,8 @@
+@model MenuItem
+@{ ViewData["Title"] = "Delete menu item"; }
+<div class="page-heading"><p class="eyebrow">MENU MANAGEMENT</p><h1>Delete menu item</h1><p>Review the item before confirming deletion.</p></div>
+<div class="form-card">
+<div class="delete-warning"><strong>Are you sure you want to delete “@Model.Name”?</strong><p class="mb-0 mt-2">This action cannot be undone. Items already used in a bill cannot be deleted.</p></div>
+<dl class="row mt-4"><dt class="col-5">Category</dt><dd class="col-7">@Model.Category</dd><dt class="col-5">Price</dt><dd class="col-7">₹@Model.Price.ToString("N2")</dd><dt class="col-5">Available quantity</dt><dd class="col-7">@Model.AvailableQuantity</dd></dl>
+<form asp-action="Delete" method="post"><input type="hidden" asp-for="Id" /><div class="form-actions"><a class="btn btn-light" asp-action="Index">Cancel</a><button class="btn btn-danger" type="submit">Delete item</button></div></form>
+</div>

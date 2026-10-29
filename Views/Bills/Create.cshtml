@@ -1,0 +1,21 @@
+@model CreateBillViewModel
+@{ ViewData["Title"] = "Create bill"; var menuItems = ViewBag.MenuItems as List<MenuItem> ?? new List<MenuItem>(); }
+<div class="page-heading"><p class="eyebrow">CHECKOUT</p><h1>Create a bill</h1><p>Choose quantities. Stock and totals are checked again before saving.</p></div>
+@if (!menuItems.Any()) { <div class="empty-state table-card"><div class="empty-icon">☕</div><h3>No items available to sell</h3><p>Add menu items or update their stock before creating a bill.</p><a class="btn btn-cafe" asp-controller="MenuItems" asp-action="Create">Add menu item</a></div> }
+else {
+<div class="billing-grid">
+<div class="form-card">
+<form asp-action="Create" method="post" id="billForm">
+  <div asp-validation-summary="ModelOnly" class="validation-summary mb-3"></div>
+  <div class="mb-4"><label asp-for="CustomerName" class="form-label"></label><input asp-for="CustomerName" class="form-control" placeholder="Walk-in customer" /><span asp-validation-for="CustomerName" class="field-error"></span></div>
+  <div class="section-heading compact"><div><p class="eyebrow">AVAILABLE MENU</p><h2>Select items</h2></div></div>
+  <div class="bill-menu-list">
+  @for (var i = 0; i < menuItems.Count; i++) { var item = menuItems[i]; <div class="bill-menu-row" data-price="@item.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)"><input type="hidden" name="Lines[@i].MenuItemId" value="@item.Id" /><div class="bill-menu-info"><strong>@item.Name</strong><span>@item.Category · ₹@item.Price.ToString("N2")</span><small>@item.AvailableQuantity in stock</small></div><label class="quantity-label" for="qty-@i">Qty</label><input id="qty-@i" name="Lines[@i].Quantity" class="form-control quantity-input" type="number" min="0" max="@item.AvailableQuantity" value="0" data-max="@item.AvailableQuantity" /></div> }
+  </div>
+  <div class="form-actions"><a class="btn btn-light" asp-action="Index">Cancel</a><button class="btn btn-cafe" type="submit">Save bill & update stock</button></div>
+</form>
+</div>
+<aside class="bill-summary"><p class="eyebrow">BILL SUMMARY</p><h2>Order total</h2><div id="summaryLines" class="summary-lines"><p class="text-muted">Choose menu quantities to begin.</p></div><div class="summary-total"><span>Total</span><strong id="billTotal">₹0.00</strong></div><p class="summary-note">Final prices and stock are verified on the server.</p></aside>
+</div>
+}
+@section Scripts { <script src="~/js/billing.js" asp-append-version="true"></script> <partial name="_ValidationScriptsPartial" /> }

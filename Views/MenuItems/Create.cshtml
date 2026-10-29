@@ -1,0 +1,13 @@
+@model MenuItem
+@{ ViewData["Title"] = "Add menu item"; }
+<div class="page-heading"><p class="eyebrow">MENU MANAGEMENT</p><h1>Add menu item</h1><p>Add an item with its category, price, and current stock.</p></div>
+<div class="form-card">
+<form asp-action="Create" method="post">
+  <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+  <div class="mb-3"><label asp-for="Name" class="form-label"></label><input asp-for="Name" class="form-control" placeholder="e.g. Cappuccino" autocomplete="off" /><span asp-validation-for="Name" class="field-error"></span></div>
+  <div class="mb-3"><label asp-for="Category" class="form-label"></label><input asp-for="Category" class="form-control" placeholder="e.g. Coffee" /><span asp-validation-for="Category" class="field-error"></span></div>
+  <div class="row g-3"><div class="col-sm-6 mb-3"><label asp-for="Price" class="form-label"></label><div class="input-group"><span class="input-group-text">₹</span><input asp-for="Price" class="form-control" type="number" min="0.01" step="0.01" /><span asp-validation-for="Price" class="field-error"></span></div></div><div class="col-sm-6 mb-3"><label asp-for="AvailableQuantity" class="form-label"></label><input asp-for="AvailableQuantity" class="form-control" type="number" min="0" step="1" /><span asp-validation-for="AvailableQuantity" class="field-error"></span></div></div>
+  <div class="form-actions"><a class="btn btn-light" asp-action="Index">Cancel</a><button class="btn btn-cafe" type="submit">Save menu item</button></div>
+</form>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }
