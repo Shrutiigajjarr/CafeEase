@@ -4,11 +4,19 @@ CafeEase is a cafe menu and billing application built with ASP.NET Core MVC, Ent
 
 ## Features
 - Dashboard with menu count, bill count, today's sales, and recent bills
+<img width="590" height="617" alt="image" src="https://github.com/user-attachments/assets/20545f6e-4567-4ad8-b2b9-43ed55f1b0a8" />
+
 - Add, view, search, filter, edit, and delete menu items
+- Automatic bill total calculation and stock deduction
+<img width="580" height="450" alt="image" src="https://github.com/user-attachments/assets/6ce62068-8bc6-46f5-8903-59fb76b6851e" />
+
 - Server-side validation for menu details
 - Create bills with multiple menu items and quantities
-- Automatic bill total calculation and stock deduction
+<img width="576" height="682" alt="image" src="https://github.com/user-attachments/assets/1254e2e9-8cf3-445c-b12b-91acc461e2dc" />
+
 - Bill history, receipt details, and print-friendly receipt
+<img width="977" height="683" alt="image" src="https://github.com/user-attachments/assets/912dc763-1f2b-4e68-b229-26af89f0c7b8" />
+
 - Responsive Bootstrap layout with a calm green theme
 
 ## Requirements
